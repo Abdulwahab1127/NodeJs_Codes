@@ -31,14 +31,16 @@ const server = http.createServer((req,res)=>{
         const parsedBody = Buffer.concat(body).toString();
         //split('=')[1] will give us data after the equal sign in the message
         const message = parsedBody.split('=')[1]
-        files.writeFileSync('message.txt',message) 
+        files.writeFile('message.txt',message,()=>{
+
+        res.statusCode = 302;
+        res.setHeader('Location','/');
+        //To Make sure Response end here we use return
+        return res.end();
+        });
         
     });
 
-    res.statusCode = 302;
-    res.setHeader('Location','/');
-    //To Make sure Response end here we use return
-    return res.end();
     
     }
     
